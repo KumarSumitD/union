@@ -1,0 +1,25 @@
+:host {
+    display: block;
+    height: 100%;
+    div {
+        position: relative;
+        color: #EF3A50;
+        background-color: #EF3A50;
+        height: 100%;
+        i {
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        &.open {
+            i { display: none;}
+            span{display: block;}
+        }
+        span {
+            display: none;
+            color: #fff;
+        }
+    }
+}

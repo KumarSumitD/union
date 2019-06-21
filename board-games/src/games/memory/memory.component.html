@@ -1,0 +1,20 @@
+<section>
+  <bg-players (playersSet)="playersSet($event)" [activePlayer]="activePlayer" [declareWinner]="declareWinner"></bg-players>
+</section>
+<section class="memory-game">
+  <form no-validate class="center-block" *ngIf="userSetDone && !noOfCardsSelected">
+    <div class="form-group">
+      <label for="noOfCards">Number of Unique cards</label>
+      <select [(ngModel)]="noOfCards" name="noOfCards" (change)="numberOfCardsSelected()">  
+          <option [ngValue]="$index + 1" *ngFor="let card of maxNoOfCards; let $index = index;">  
+                {{$index + 1}}  
+          </option>  
+      </select>
+    </div>
+  </form>
+</section>
+<section class="flex-container">
+  <div class="card" *ngFor="let card of cardsArray">
+    <bg-card [card]="card"></bg-card>
+  </div>
+</section>

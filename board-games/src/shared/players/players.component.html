@@ -1,0 +1,22 @@
+<ng-container *ngIf="!namesEntered; else playersInfo;">
+  <form [formGroup]="form" no-validate class="flex-container" *ngIf="players && players.length > 0">
+    <ng-container *ngFor="let player of players">
+      <input [formControlName]= "player.control" placeholder="Player's Name">
+    </ng-container>
+    <button type="button" class="btn btn-primary" (click)="setName()" [disabled]="form.invalid">Start Game</button>
+    <button type="button" class="btn btn-default" (click)="resetNames()">Reset</button>
+  </form>
+</ng-container>
+<ng-template #playersInfo>
+  <div class="player-container flex-container">
+    <div *ngFor="let player of players">
+        <i class="fa" aria-hidden="true" [ngClass]="player.control === currentActivePlayer ? 'fa-user' : 'fa-user-o'"></i>
+        <span>{{player.name}}</span>
+        <span> Wins - {{player.wins || 0}}</span>
+    </div>
+  </div>
+  <div *ngIf="declareWinner">
+    Show Winner name  - {{winnerPlayer.name}}
+  </div>
+</ng-template>
+
