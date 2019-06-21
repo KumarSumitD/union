@@ -1,10 +1,16 @@
 <section>
-  <bg-players (playersSet)="playersSet($event)" [activePlayer]="activePlayer" [declareWinner]="declareWinner"></bg-players>
+  <bg-players 
+    [gameSetupDone]="gameSetupDone"
+    [declareWinner]="declareWinner"
+    (playersSet)="playersSet($event)" 
+    (startNextRound)="startNextRound()"
+    [(roundDone)]="roundDone" 
+  ></bg-players>
 </section>
 <section class="memory-game">
   <form no-validate class="center-block" *ngIf="userSetDone && !noOfCardsSelected">
     <div class="form-group">
-      <label for="noOfCards">Number of Unique cards</label>
+      <label for="noOfCards">Select No Of Cards To Proceed</label>
       <select [(ngModel)]="noOfCards" name="noOfCards" (change)="numberOfCardsSelected()">  
           <option [ngValue]="$index + 1" *ngFor="let card of maxNoOfCards; let $index = index;">  
                 {{$index + 1}}  

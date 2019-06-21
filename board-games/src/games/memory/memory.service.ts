@@ -55,7 +55,7 @@ export class MemoryService {
         const tempUnOpenedCards = [...this.remainingUnOpenedCards];
         for (let index = 0; index < tempUnOpenedCards.length; index++) {
             if (tempUnOpenedCards[index].position === card.position) {
-                this.remainingUnOpenedCards.splice(1, 1);
+                this.remainingUnOpenedCards.splice(index, 1);
                 this.updateMemory(card);
                 break;
             }

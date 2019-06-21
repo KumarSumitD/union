@@ -9,7 +9,7 @@ input {
     margin-bottom: 10px;
 }
 
-button {
+form button {
     width: 48%; 
 }
 
@@ -38,7 +38,7 @@ i.fa {
         font-size: 20px;
         word-break: break-word;
     }
-    .active {
-
+    button {
+        padding: 0;
     }
 }    

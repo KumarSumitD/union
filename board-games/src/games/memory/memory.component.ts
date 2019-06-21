@@ -11,10 +11,11 @@ import { Card } from './memory.interface';
   providers: [MemoryService]
 })
 export class MemoryComponent implements OnInit {
-  private allPlayers: Player[];
   private activeUserIndex: number;
   private unMatchedCount: number;
 
+  gameSetupDone = false;
+  roundDone: 'win' | 'noResult';
   declareWinner = false;
   activePlayer: string;
   maxNoOfCards = new Array(10);
@@ -34,7 +35,6 @@ export class MemoryComponent implements OnInit {
    * Users info is entered
    */
   public playersSet(playeres: Player[]) {
-    this.allPlayers = playeres;
     this.userSetDone = true;
   }
 
@@ -51,11 +51,6 @@ export class MemoryComponent implements OnInit {
     this.shuffleArray(tempArray);
     this.memoryService.remainingUnOpenedCards = [...this.cardsArray];
     this.unMatchedCount = this.cardsArray.length / 2;
-    setTimeout(() => {
-      console.log('Game Starting');
-      this.chooseCards();
-      this.cdr.markForCheck();
-    }, 3000);
   }
 
   /**
@@ -73,23 +68,7 @@ export class MemoryComponent implements OnInit {
       tempArray[currentIndex].position = currentIndex;
     }
     this.cardsArray = tempArray;
-  }
-
-  /**
-   * Toggle Active Player
-   */
-  private toggleActivePlayer() {
-    if  (typeof this.activeUserIndex === 'undefined') {
-      this.activeUserIndex = 0;
-    } else {
-      const nextUserIndex = this.activeUserIndex  + 1;
-      if (nextUserIndex === this.allPlayers.length) {
-        this.activeUserIndex = 0;
-      } else {
-        this.activeUserIndex = nextUserIndex;
-      }
-    }
-    this.activePlayer = this.allPlayers[this.activeUserIndex].control;
+    this.gameSetupDone = true;
   }
 
   /**
@@ -97,7 +76,6 @@ export class MemoryComponent implements OnInit {
    */
   private chooseCards() {
     console.log('Choose Cards');
-    this.toggleActivePlayer();
 
     // Check if any confirmed combination is available
     const anyConfirmCardIdPair = this.memoryService.getConfirmCardIdPair();
@@ -106,7 +84,6 @@ export class MemoryComponent implements OnInit {
     } else {
       this.unknownMemories();
     }
-    this.checkForNextRound();
   }
 
   /**
@@ -120,7 +97,6 @@ export class MemoryComponent implements OnInit {
     cardsByRandomCardId[0].isOpen = true;
     cardsByRandomCardId[1].isOpen = true;
     this.markCardAsMatched(cardsByRandomCardId[0], cardsByRandomCardId[1]);
-    this.checkForNextRound();
   }
 
   /**
@@ -178,6 +154,7 @@ export class MemoryComponent implements OnInit {
       setTimeout(() => {
         firstCard.isOpen = false;
         secondCard.isOpen = false;
+        this.roundDone = 'noResult';
         this.cdr.markForCheck();
       }, 1000);
     }
@@ -187,23 +164,24 @@ export class MemoryComponent implements OnInit {
    * Mark cards as matched and also update wins
    */
   private markCardAsMatched(firstCard: Card, secondCard: Card) {
-    firstCard.isMatched = true;
-    secondCard.isMatched = true;
-    this.memoryService.updateMatchedInMemory(firstCard, secondCard);
-    this.unMatchedCount--;
+    setTimeout(() => {
+      firstCard.isMatched = true;
+      secondCard.isMatched = true;
+      this.memoryService.updateMatchedInMemory(firstCard, secondCard);
+      this.unMatchedCount--;
+      this.roundDone = 'win';
+      this.cdr.markForCheck();
+    }, 2000);
   }
 
   /**
    * Check if next round is needed
    */
-  private checkForNextRound() {
-    setTimeout(() => {
-      if (this.unMatchedCount !== 0) {
-        this.chooseCards();
-      } else {
-        this.declareWinner = true;
-      }
-      this.cdr.markForCheck();
-    }, 5000);
+  public startNextRound() {
+    if (this.unMatchedCount !== 0) {
+      this.chooseCards();
+    } else {
+      this.declareWinner = true;
+    }
   }
 }

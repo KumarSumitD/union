@@ -9,19 +9,22 @@ import { Player } from '../interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayersComponent implements OnInit, OnChanges {
-  currentActivePlayer: string;
+  currentPlayerIndex;
   winnerPlayer: Player;
   namesEntered = false;
   players: Player[] = [];
   form: FormGroup;
 
-  @Input('roundWinner') roundWinner: boolean;
+  @Input('roundDone') roundDone: 'win' | 'noResult';
+  @Output('roundDoneChange') roundDoneChange: EventEmitter<any> = new EventEmitter<any>();
 
   @Input('declareWinner') declareWinner = false;
 
-  @Input('activePlayer') activePlayer: string;
-
   @Input('noOfPlayers') noOfPlayers = 2;
+
+  @Input('gameSetupDone') gameSetupDone = false;
+
+  @Output('startNextRound') startNextRound: EventEmitter<any> = new EventEmitter<any>();
 
   @Output('playersSet') playersSet: EventEmitter<Player[]> = new EventEmitter<Player[]>();
 
@@ -39,14 +42,10 @@ export class PlayersComponent implements OnInit, OnChanges {
       this.form.addControl(tempPlayers[index].control, new FormControl('', [Validators.required]));
     }
     this.players = tempPlayers;
+    this.toggleActivePlayer();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // Make player active based on control name which is unique
-    if (changes.activePlayer && changes.activePlayer.currentValue) {
-      this.currentActivePlayer = changes.activePlayer.currentValue;
-    }
-
     // Declare Winner
     if (changes.declareWinner && typeof changes.declareWinner.currentValue !== 'undefined') {
       const winnerPlayerOrder: Player[] = this.players.sort((player1, player2) => {
@@ -58,13 +57,37 @@ export class PlayersComponent implements OnInit, OnChanges {
     }
 
     // Round Winner
-    if (changes.roundWinner && typeof changes.roundWinner.currentValue !== 'undefined') {
-      const player: Player = this.players.find((eachPlayer: Player) => {
-        return eachPlayer.active;
-      });
-      player.wins += 1;
+    if (changes.roundDone) {
+      if (!changes.roundDone.currentValue) {
+        return;
+      }
+
+      if (changes.roundDone.currentValue === 'win') {
+        const player: Player = this.players[this.currentPlayerIndex];
+        player.wins += 1;
+        // this.roundWinnerChange.emit(false);
+      }
+      this.toggleActivePlayer();
+      this.roundDoneChange.emit('');
     }
   }
+
+  /**
+   * Toggle Active Player
+   */
+  private toggleActivePlayer() {
+    if  (typeof this.currentPlayerIndex === 'undefined') {
+      this.currentPlayerIndex = 0;
+    } else {
+      const nextUserIndex = this.currentPlayerIndex  + 1;
+      if (nextUserIndex === this.players.length) {
+        this.currentPlayerIndex = 0;
+      } else {
+        this.currentPlayerIndex = nextUserIndex;
+      }
+    }
+  }
+
 
   /**
    * Start the game and pass user info to consuming component

@@ -9,10 +9,16 @@
 </ng-container>
 <ng-template #playersInfo>
   <div class="player-container flex-container">
-    <div *ngFor="let player of players">
-        <i class="fa" aria-hidden="true" [ngClass]="player.control === currentActivePlayer ? 'fa-user' : 'fa-user-o'"></i>
+    <div *ngFor="let player of players; let $index = index">
+        <i class="fa" aria-hidden="true" [ngClass]="$index === currentPlayerIndex && gameSetupDone ? 'fa-user' : 'fa-user-o'"></i>
         <span>{{player.name}}</span>
         <span> Wins - {{player.wins || 0}}</span>
+        <button 
+          type="button" 
+          class="btn btn-link" 
+          (click)="this.startNextRound.emit();" 
+          [disabled]="$index !== currentPlayerIndex || !gameSetupDone">Start Move
+        </button>
     </div>
   </div>
   <div *ngIf="declareWinner">
