@@ -2,7 +2,7 @@
   <bg-players 
     [gameSetupDone]="gameSetupDone"
     [gameComplete]="declareWinner"
-    (startGame)="startGame($event)" 
+    (startGame)="startGame()" 
     (startNextRound)="startNextRound()"
     [(roundDone)]="roundDone" 
   ></bg-players>
@@ -19,7 +19,7 @@
     </div>
   </form>
 </section>
-<section class="flex-container">
+<section class="flex-container" *ngIf="!declareWinner">
   <div class="card" *ngFor="let card of cardsArray">
     <bg-card [card]="card"></bg-card>
   </div>

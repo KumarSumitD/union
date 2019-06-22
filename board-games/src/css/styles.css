@@ -24,3 +24,7 @@ select {
 button {
     border-radius: 0 !important;
 }
+
+.mt-1 {
+    margin-top: 10px;
+}

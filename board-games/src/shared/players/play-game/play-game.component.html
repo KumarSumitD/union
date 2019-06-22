@@ -17,7 +17,7 @@
         type="button" 
         class="btn btn-link" 
         (click)="this.startPlayersTurn.emit();" 
-        [disabled]="$index !== currentPlayerIndex || !gameSetupDone">Start Move
+        [disabled]="$index !== currentPlayerIndex || !gameSetupDone || moveInProgress">Start Move
       </button>
   </div>
 </div>

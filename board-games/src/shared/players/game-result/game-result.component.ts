@@ -15,8 +15,4 @@ export class GameResultComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  public restart() {
-    window.location.reload();
-  }
 }

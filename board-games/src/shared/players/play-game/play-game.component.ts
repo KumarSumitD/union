@@ -8,6 +8,7 @@ import { Player } from '../../interface';
 })
 export class PlayGameComponent implements OnInit {
 
+  @Input('moveInProgress') moveInProgress = false;
   @Input('currentPlayerIndex') currentPlayerIndex;
   @Input('players') players: Player[];
   @Input('gameSetupDone') gameSetupDone = false;

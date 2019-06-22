@@ -6,8 +6,12 @@
     [players]="players" 
     [gameSetupDone]="gameSetupDone" 
     [currentPlayerIndex]="currentPlayerIndex"
-    (startPlayersTurn)="this.startNextRound.emit();">
+    [moveInProgress]="moveInProgress"
+    (startPlayersTurn)="startPlayersTurn()">
   </bg-play-game>
-  <bg-game-result *ngIf="gameComplete" [winnerPlayer]="winnerPlayer"></bg-game-result>
+  <bg-game-result *ngIf="gameComplete" [winnerPlayer]="winnerPlayer" [isDraw]="isDraw"></bg-game-result>
 </ng-template>
+<div  class="flex-container" >
+  <button type="button" class="btn btn-primary center-block mt-1" (click)="restart()">Restart</button>
+</div>
 
