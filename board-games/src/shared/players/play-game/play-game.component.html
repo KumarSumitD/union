@@ -1,3 +1,23 @@
-<p>
-  play-game works!
-</p>
+<div class="player-container flex-container">
+  <div 
+    *ngFor="let player of players; 
+            let $index = index; 
+            let isOdd=odd;
+            let isEven=even" 
+    [ngClass]="{'odd': isOdd, 'even': isEven}" 
+    >
+      <i 
+        class="fa" 
+        aria-hidden="true" 
+        [ngClass]="$index === currentPlayerIndex && gameSetupDone ? 'fa-user' : 'fa-user-o'">
+      </i>
+      <span>{{player.name}}</span>
+      <span> Wins - {{player.wins || 0}}</span>
+      <button 
+        type="button" 
+        class="btn btn-link" 
+        (click)="this.startPlayersTurn.emit();" 
+        [disabled]="$index !== currentPlayerIndex || !gameSetupDone">Start Move
+      </button>
+  </div>
+</div>

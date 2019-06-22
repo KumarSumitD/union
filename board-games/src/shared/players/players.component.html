@@ -2,8 +2,14 @@
   <bg-set-players (playersSet)="onPlayersSet($event)"></bg-set-players>
 </ng-container>
 <ng-template #playersInfo>
+  <bg-play-game 
+    [players]="players" 
+    [gameSetupDone]="gameSetupDone" 
+    [currentPlayerIndex]="currentPlayerIndex"
+    (startPlayersTurn)="this.startNextRound.emit();">
+  </bg-play-game>
   <div class="player-container flex-container">
-    <div 
+    <!--<div 
       *ngFor="let player of players; 
               let $index = index; 
               let isOdd=odd;
@@ -23,7 +29,7 @@
           (click)="this.startNextRound.emit();" 
           [disabled]="$index !== currentPlayerIndex || !gameSetupDone">Start Move
         </button>
-    </div>
+    </div>-->
   </div>
   <div  class="winner-container" *ngIf="gameComplete">
     <span>And the Winner is  - {{winnerPlayer.name}} !!!</span>
