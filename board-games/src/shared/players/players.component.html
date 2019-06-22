@@ -8,31 +8,6 @@
     [currentPlayerIndex]="currentPlayerIndex"
     (startPlayersTurn)="this.startNextRound.emit();">
   </bg-play-game>
-  <div class="player-container flex-container">
-    <!--<div 
-      *ngFor="let player of players; 
-              let $index = index; 
-              let isOdd=odd;
-             let isEven=even" 
-      [ngClass]="{'odd': isOdd, 'even': isEven}" 
-      >
-        <i 
-          class="fa" 
-          aria-hidden="true" 
-          [ngClass]="$index === currentPlayerIndex && gameSetupDone ? 'fa-user' : 'fa-user-o'">
-        </i>
-        <span>{{player.name}}</span>
-        <span> Wins - {{player.wins || 0}}</span>
-        <button 
-          type="button" 
-          class="btn btn-link" 
-          (click)="this.startNextRound.emit();" 
-          [disabled]="$index !== currentPlayerIndex || !gameSetupDone">Start Move
-        </button>
-    </div>-->
-  </div>
-  <div  class="winner-container" *ngIf="gameComplete">
-    <span>And the Winner is  - {{winnerPlayer.name}} !!!</span>
-  </div>
+  <bg-game-result *ngIf="gameComplete" [winnerPlayer]="winnerPlayer"></bg-game-result>
 </ng-template>
 

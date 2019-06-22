@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Player } from '../../interface';
 
 @Component({
   selector: 'bg-game-result',
@@ -8,9 +9,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class GameResultComponent implements OnInit {
 
+  @Input('winnerPlayer') winnerPlayer: Player;
+  @Input('isDraw') isDraw = false;
   constructor() { }
 
   ngOnInit() {
   }
 
+  public restart() {
+    window.location.reload();
+  }
 }

@@ -1,3 +1,5 @@
-<p>
-  game-result works!
-</p>
+<div  class="winner-container" >
+  <span *ngIf="winnerPlayer">And the Winner is  - {{winnerPlayer.name}} !!!</span>
+  <span *ngIf="isDraw">The Game is draw</span>
+  <button type="button" class="btn btn-primary" (click)="restart()">Restart</button>
+</div>
