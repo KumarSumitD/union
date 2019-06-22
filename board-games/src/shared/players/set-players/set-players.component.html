@@ -1,0 +1,7 @@
+<form [formGroup]="form" no-validate class="flex-container" *ngIf="players && players.length > 0">
+  <ng-container *ngFor="let player of players">
+    <input [formControlName]= "player.control" placeholder="Player's Name">
+  </ng-container>
+  <button type="button" class="btn btn-primary" (click)="setPlayers()" [disabled]="form.invalid">Start Game</button>
+  <button type="button" class="btn btn-default" (click)="resetNames()">Reset</button>
+</form>

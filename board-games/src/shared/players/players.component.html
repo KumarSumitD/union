@@ -1,16 +1,20 @@
 <ng-container *ngIf="!namesEntered; else playersInfo;">
-  <form [formGroup]="form" no-validate class="flex-container" *ngIf="players && players.length > 0">
-    <ng-container *ngFor="let player of players">
-      <input [formControlName]= "player.control" placeholder="Player's Name">
-    </ng-container>
-    <button type="button" class="btn btn-primary" (click)="setName()" [disabled]="form.invalid">Start Game</button>
-    <button type="button" class="btn btn-default" (click)="resetNames()">Reset</button>
-  </form>
+  <bg-set-players (playersSet)="onPlayersSet($event)"></bg-set-players>
 </ng-container>
 <ng-template #playersInfo>
   <div class="player-container flex-container">
-    <div *ngFor="let player of players; let $index = index">
-        <i class="fa" aria-hidden="true" [ngClass]="$index === currentPlayerIndex && gameSetupDone ? 'fa-user' : 'fa-user-o'"></i>
+    <div 
+      *ngFor="let player of players; 
+              let $index = index; 
+              let isOdd=odd;
+             let isEven=even" 
+      [ngClass]="{'odd': isOdd, 'even': isEven}" 
+      >
+        <i 
+          class="fa" 
+          aria-hidden="true" 
+          [ngClass]="$index === currentPlayerIndex && gameSetupDone ? 'fa-user' : 'fa-user-o'">
+        </i>
         <span>{{player.name}}</span>
         <span> Wins - {{player.wins || 0}}</span>
         <button 
@@ -21,8 +25,8 @@
         </button>
     </div>
   </div>
-  <div *ngIf="declareWinner">
-    Show Winner name  - {{winnerPlayer.name}}
+  <div  class="winner-container" *ngIf="gameComplete">
+    <span>And the Winner is  - {{winnerPlayer.name}} !!!</span>
   </div>
 </ng-template>
 

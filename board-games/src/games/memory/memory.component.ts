@@ -34,7 +34,7 @@ export class MemoryComponent implements OnInit {
   /**
    * Users info is entered
    */
-  public playersSet(playeres: Player[]) {
+  public startGame() {
     this.userSetDone = true;
   }
 
@@ -169,7 +169,11 @@ export class MemoryComponent implements OnInit {
       secondCard.isMatched = true;
       this.memoryService.updateMatchedInMemory(firstCard, secondCard);
       this.unMatchedCount--;
-      this.roundDone = 'win';
+      if (this.unMatchedCount === 0) {
+        this.declareWinner = true;
+      } else {
+        this.roundDone = 'win';
+      }
       this.cdr.markForCheck();
     }, 2000);
   }

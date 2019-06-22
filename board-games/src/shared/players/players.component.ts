@@ -18,7 +18,7 @@ export class PlayersComponent implements OnInit, OnChanges {
   @Input('roundDone') roundDone: 'win' | 'noResult';
   @Output('roundDoneChange') roundDoneChange: EventEmitter<any> = new EventEmitter<any>();
 
-  @Input('declareWinner') declareWinner = false;
+  @Input('gameComplete') gameComplete = false;
 
   @Input('noOfPlayers') noOfPlayers = 2;
 
@@ -26,50 +26,60 @@ export class PlayersComponent implements OnInit, OnChanges {
 
   @Output('startNextRound') startNextRound: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output('playersSet') playersSet: EventEmitter<Player[]> = new EventEmitter<Player[]>();
+  @Output('startGame') startGame: EventEmitter<Player[]> = new EventEmitter<Player[]>();
 
   constructor(private _fb: FormBuilder) { }
 
-  ngOnInit() {
-    this.form = this._fb.group({});
-    const tempPlayers: {'control': string}[] = [];
+  ngOnInit() {}
 
-    for (let index = 0; index < this.noOfPlayers; index++) {
-      const playerName = `player${index}`;
-      tempPlayers.push({
-        control: playerName
-      });
-      this.form.addControl(tempPlayers[index].control, new FormControl('', [Validators.required]));
-    }
-    this.players = tempPlayers;
+  /**
+   * On Players Set
+   */
+  public onPlayersSet(players: Player[]) {
+    this.namesEntered = true;
+    this.players = players;
     this.toggleActivePlayer();
+    this.startGame.emit();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // Declare Winner
-    if (changes.declareWinner && typeof changes.declareWinner.currentValue !== 'undefined') {
+    if (changes.gameComplete && typeof changes.gameComplete.currentValue !== 'undefined') {
+      this.onGameComplete(changes.gameComplete.currentValue);
+    }
+
+    // Round Winner
+    if (changes.roundDone && changes.roundDone.currentValue) {
+      this.onRoundDone(changes.roundDone.currentValue);
+    }
+  }
+  /**
+   * On Game Complete
+   */
+  private onGameComplete(value: boolean) {
+      if (typeof this.currentPlayerIndex !== 'undefined' && value) {
+        const player: Player = this.players[this.currentPlayerIndex];
+        player.wins += 1;
+        this.gameSetupDone = false;
+      }
       const winnerPlayerOrder: Player[] = this.players.sort((player1, player2) => {
         const player1Wins = player1.wins;
         const player2Wins = player2.wins;
         return player2Wins - player1Wins;
       });
       this.winnerPlayer = winnerPlayerOrder[0];
-    }
+  }
 
-    // Round Winner
-    if (changes.roundDone) {
-      if (!changes.roundDone.currentValue) {
-        return;
-      }
-
-      if (changes.roundDone.currentValue === 'win') {
+  /**
+   * For Each Round
+   */
+  private onRoundDone(value: 'win' | 'noResult') {
+      if (value === 'win') {
         const player: Player = this.players[this.currentPlayerIndex];
         player.wins += 1;
-        // this.roundWinnerChange.emit(false);
       }
       this.toggleActivePlayer();
       this.roundDoneChange.emit('');
-    }
   }
 
   /**
@@ -87,26 +97,4 @@ export class PlayersComponent implements OnInit, OnChanges {
       }
     }
   }
-
-
-  /**
-   * Start the game and pass user info to consuming component
-   */
-  public setName() {
-    const userName = Object.keys(this.form.value);
-    Object.keys(this.form.value).forEach((name, index) => {
-      this.players[index].name = this.form.value[name];
-      this.players[index].wins = 0;
-    });
-    this.namesEntered = true;
-    this.playersSet.emit(this.players);
-  }
-
-  /**
-   * Reset the names
-   */
-  public resetNames() {
-    this.form.reset();
-  }
-
 }

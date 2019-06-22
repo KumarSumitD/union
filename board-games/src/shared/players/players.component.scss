@@ -4,24 +4,22 @@
     margin-right: auto;
     margin-left: auto;
 }
-input {
-    width: 48%;
-    margin-bottom: 10px;
-}
-
-form button {
-    width: 48%; 
-}
 
 .flex-container {
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
+.even {
+    i.fa { color:  #EF3A50; }
+}
+
+.odd {
+    i.fa { color:  #337ab7; }
+}
 i.fa {
     display: block;
     font-size: 50px;
-    color:  #EF3A50;
 }
 
 .player-container {
@@ -41,4 +39,10 @@ i.fa {
     button {
         padding: 0;
     }
-}    
+}
+
+.winner-container {
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+}

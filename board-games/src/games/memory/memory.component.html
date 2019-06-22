@@ -1,8 +1,8 @@
 <section>
   <bg-players 
     [gameSetupDone]="gameSetupDone"
-    [declareWinner]="declareWinner"
-    (playersSet)="playersSet($event)" 
+    [gameComplete]="declareWinner"
+    (startGame)="startGame($event)" 
     (startNextRound)="startNextRound()"
     [(roundDone)]="roundDone" 
   ></bg-players>
