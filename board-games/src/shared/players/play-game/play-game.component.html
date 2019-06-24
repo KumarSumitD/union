@@ -13,11 +13,12 @@
       </i>
       <span>{{player.name}}</span>
       <span> Wins - {{player.wins || 0}}</span>
-      <button 
+      <!-- Below code is when computer plays the game, removing as per requirement -->
+      <!--<button 
         type="button" 
         class="btn btn-link" 
         (click)="this.startPlayersTurn.emit();" 
         [disabled]="$index !== currentPlayerIndex || !gameSetupDone || moveInProgress">Start Move
-      </button>
+      </button>-->
   </div>
 </div>

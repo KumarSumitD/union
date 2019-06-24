@@ -4,6 +4,9 @@ import { Card, Memory } from './memory.interface';
 
 @Injectable()
 export class MemoryService {
+    /**
+     * IMP !!!! NOt Needed , only needed when computer plays
+     */
     public cardMemory: CustomMap<Memory> = {};
     public remainingUnOpenedCards: Card[];
 

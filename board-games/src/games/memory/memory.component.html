@@ -8,7 +8,7 @@
   ></bg-players>
 </section>
 <section class="memory-game">
-  <form no-validate class="center-block" *ngIf="userSetDone && !noOfCardsSelected">
+  <form no-validate class="center-block" *ngIf="playerSetDone && cardsArray.length === 0">
     <div class="form-group">
       <label for="noOfCards">Select No Of Cards To Proceed</label>
       <select [(ngModel)]="noOfCards" name="noOfCards" (change)="numberOfCardsSelected()">  
@@ -20,7 +20,7 @@
   </form>
 </section>
 <section class="flex-container" *ngIf="!declareWinner">
-  <div class="card" *ngFor="let card of cardsArray">
+  <div class="card" *ngFor="let card of cardsArray" (click)="cardSelected(card)">
     <bg-card [card]="card"></bg-card>
   </div>
 </section>
