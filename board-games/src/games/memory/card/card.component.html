@@ -1,5 +1,5 @@
-<div [ngClass]="{'open': card.isOpen, 'hide': card.isMatched}">
+<div [ngClass]="{'open': card.isOpen, 'hide': card.isMatched,  'round-in-progress': roundInProgress}">
     <i class="fa fa-bolt" aria-hidden="true"></i>
-    <span>{{card.cardId}}</span>
+    <div>{{card.cardId}}</div>
 </div>
 

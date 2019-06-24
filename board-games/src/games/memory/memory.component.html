@@ -21,6 +21,6 @@
 </section>
 <section class="flex-container" *ngIf="!declareWinner">
   <div class="card" *ngFor="let card of cardsArray" (click)="cardSelected(card)">
-    <bg-card [card]="card"></bg-card>
+    <bg-card [card]="card" [roundInProgress]="roundInProgress"></bg-card>
   </div>
 </section>

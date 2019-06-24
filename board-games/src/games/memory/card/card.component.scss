@@ -1,12 +1,11 @@
 :host {
     display: block;
     height: 100%;
-    cursor: pointer;
-    div {
+    div { height: 100%;}
+    > div {
         position: relative;
-        color: #EF3A50;
+        cursor: pointer;
         background-color: #EF3A50;
-        height: 100%;
         i {
             color: #fff;
             position: absolute;
@@ -14,13 +13,22 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        &.open {
-            i { display: none;}
-            span{display: block;}
-        }
-        span {
+        div {
             display: none;
             color: #fff;
+        }
+        &.open {
+            cursor: not-allowed;
+            i { display: none;}
+            div{
+                color: #EF3A50;
+                background-color: #fff;
+                display: block;
+            }
+        }
+        &.round-in-progress { cursor: not-allowed; }
+        &.hide {
+            cursor: not-allowed;
         }
     }
 }

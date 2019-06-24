@@ -8,6 +8,7 @@ import { Card } from '../memory.interface';
 })
 export class CardComponent implements OnInit {
 
+  @Input('roundInProgress') roundInProgress = false;
   @Input('card') card: Card;
   constructor() { }
 
