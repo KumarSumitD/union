@@ -9,7 +9,7 @@
       <i 
         class="fa" 
         aria-hidden="true" 
-        [ngClass]="$index === currentPlayerIndex && gameSetupDone ? 'fa-user' : 'fa-user-o'">
+        [ngClass]="($index === currentPlayerIndex && gameSetupDone) || player.isWinner ? 'fa-user' : 'fa-user-o'">
       </i>
       <span>{{player.name}}</span>
       <span> Wins - {{player.wins || 0}}</span>

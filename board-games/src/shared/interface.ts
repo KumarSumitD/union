@@ -3,6 +3,7 @@ export interface Player {
     name?: string;
     active?: boolean;
     wins?: number;
+    isWinner?: boolean;
 }
 
 export interface CustomMap<T> {

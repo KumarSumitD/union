@@ -95,6 +95,7 @@ export class PlayersComponent implements OnInit, OnChanges {
     if (winnerPlayerOrder[0].wins === winnerPlayerOrder[1].wins) {
       this.isDraw = true;
     } else {
+      winnerPlayerOrder[0].isWinner = true;
       this.winnerPlayer = winnerPlayerOrder[0];
     }
   }
