@@ -1,5 +1,11 @@
-<div [ngClass]="{'open': card.isOpen, 'hide': card.isMatched,  'round-in-progress': roundInProgress}">
-    <i class="fa fa-bolt" aria-hidden="true"></i>
-    <div>{{card.cardId}}</div>
+<div class="card-container" [ngClass]="{'open': card.isOpen, 'hide': card.isMatched,  'round-in-progress': roundInProgress}">
+    <div class="card-flip">
+        <div class="card-common card-front">
+            <i class="fa fa-bolt" aria-hidden="true"></i>
+        </div>
+        <div class="card-common card-back">
+            {{card.cardId}}
+        </div>
+    </div>
 </div>
 

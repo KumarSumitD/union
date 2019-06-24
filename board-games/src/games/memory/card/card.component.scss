@@ -1,34 +1,51 @@
 :host {
-    display: block;
-    height: 100%;
-    div { height: 100%;}
-    > div {
-        position: relative;
-        cursor: pointer;
-        background-color: #EF3A50;
-        i {
+    .card-container {
+        width: 100%;
+        height: 100%;
+        .card-flip {
+            width: 100%;
+            height: 100%;
+            transition: 0.6s;
+            position: relative;
+        }
+        .card-common {
             color: #fff;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transition: 0.6s;
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
         }
-        div {
-            display: none;
-            color: #fff;
-        }
-        &.open {
-            cursor: not-allowed;
-            i { display: none;}
-            div{
-                color: #EF3A50;
-                background-color: #fff;
-                display: block;
+        .card-front {
+            z-index: 2;
+	        transform: rotateY(0deg);
+            cursor: pointer;
+            background-color: #EF3A50;
+            i {
+                color: #fff;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
         }
-        &.round-in-progress { cursor: not-allowed; }
-        &.hide {
+        .card-back {
+            background-color: #337ab7;
+            transform: rotateY(-180deg);
             cursor: not-allowed;
         }
-    }
+        &.open {
+            .card-front {
+                transform: rotateY(180deg);
+            }
+            .card-back {
+                transform: rotateY(0deg);
+            }
+        }
+        &.round-in-progress {
+            .card-front { cursor: not-allowed;}
+        }
+	}
 }
